@@ -1,4 +1,7 @@
-if(!requireNamespace("devtools")) install.packages("devtools")
+list.of.packages <- c("devtools", "leaflet", "tidyverse")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
 devtools::install_github("dkahle/ggmap")
 
 
