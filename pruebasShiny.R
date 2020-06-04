@@ -2,7 +2,6 @@ library(shiny)
 library(leaflet)
 library(RColorBrewer)
 
-setwd("/home/victorio/BIA")
 load("listings.Rdata")
 
 ui <- bootstrapPage(
@@ -71,8 +70,8 @@ server <- function(input, output, session) {
     
     leafletProxy("map", data = filteredData()) %>%
       clearMarkers() %>%
+      clearMarkerClusters() %>%
       addAwesomeMarkers(~longitude, ~latitude, icon=icons, label=~as.character(room_type), clusterOptions = markerClusterOptions()
-      #addAwesomeMarkers(~longitude, ~latitude, icon=icons, label=~as.character(room_type), clusterOptions = markerClusterOptions()
       )
   })
   
