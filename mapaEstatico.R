@@ -8,7 +8,6 @@ devtools::install_github("dkahle/ggmap")
 library(tidyverse)
 library(ggmap)
 
-#Tipos de mapa:
 #“terrain”, “terrain-background”, “terrain-labels”, “terrain-lines”, “toner”, 
 #“toner-2010”, “toner-2011”, “toner-background”, “toner-hybrid”, “toner-labels”, 
 #“toner-lines”, “toner-lite”, “watercolor”
