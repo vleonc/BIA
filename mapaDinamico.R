@@ -1,5 +1,6 @@
 list.of.packages <- c("leaflet", "tidyverse")
-new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()
+                                   [,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
 library(tidyverse)
@@ -7,9 +8,6 @@ library(leaflet)
 
 load("listings.Rdata")
 #listings <- listings[listings[, "room_type"]=="Entire home/apt", ]
-
-df.20 <- listings
-
 
 getColor <- function(listings) {
   sapply(listings$room_type, function(room_type) {
@@ -29,9 +27,10 @@ icons <- awesomeIcons(
   icon = 'ios-close',
   iconColor = 'black',
   library = 'ion',
-  markerColor = getColor(df.20)
+  markerColor = getColor(listings)
 )
 
-leaflet(df.20) %>% addTiles() %>%
-  addAwesomeMarkers(~longitude, ~latitude, icon=icons, label=~as.character(room_type), clusterOptions = markerClusterOptions()
+leaflet(listings) %>% addTiles() %>%
+  addAwesomeMarkers(~longitude, ~latitude, icon=icons, label=~as.character
+                    (room_type), clusterOptions = markerClusterOptions()
 )
