@@ -59,6 +59,7 @@ shinyServer(function(input, output, session) {
   pal <- colorNumeric("RdYlGn", listings$price, reverse = T)
   
   observe({
+    req(input$tab_being_displayed == "NYC map")
     proxy <- leafletProxy("map", data = listings)
     
     proxy %>% clearControls()

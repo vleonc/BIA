@@ -5,7 +5,7 @@ library(RColorBrewer)
 library(tidyverse)
 
 shinyUI(
-  navbarPage(title = "Airbnb Visualization", 
+  navbarPage(title = "Airbnb Visualisation", 
              id ="tab_being_displayed",
              
              theme = shinytheme("united"), #https://rstudio.github.io/shinythemes/
@@ -34,15 +34,13 @@ shinyUI(
                     top = 80, left = "auto", right = 20, bottom = "auto",
                     width = 320, height = "auto",
       h2("Airbnb in NYC"),
-      sliderInput("range", "Magnitudes", 9, max(listings$price),
+      sliderInput("range", "Price", 9, max(listings$price),
                   value = range(listings$price), step = 100
       ),
       selectInput("roomType","Select room type",
        c("Entire home/apt","Private room","Shared room","Hotel room"), multiple = T,
        selected =  c("Entire home/apt","Private room","Shared room","Hotel room")),
-      checkboxInput("legend", "Show legend", TRUE),
-      h6("The map information is based on May 02, 2017 dataset from"),
-      h6(a("Inside Airbnb", href = "http://insideairbnb.com/get-the-data.html", target="_blank"))
+      checkboxInput("legend", "Show legend", TRUE)
       )
       ))
     
