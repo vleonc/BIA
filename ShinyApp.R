@@ -16,31 +16,33 @@ ui <- bootstrapPage(
                 sliderInput("range", "Magnitudes", 9, max(listings$price),
                             value = range(listings$price), step = 100
                 ),
-                selectInput("colors", "Color Scheme",
-                            rownames(subset(brewer.pal.info, category %in% c("seq", "div")))
-                ),
+                selectInput("roomType","Select room type",
+                            c("Entire home/apt","Private room","Shared room","Hotel room"), multiple = T,
+                            selected =  c("Entire home/apt","Private room","Shared room","Hotel room")),
                 checkboxInput("legend", "Show legend", TRUE)
   )
 )
 
 server <- function(input, output, session) {
   
+  # Reactive expression for the data subsetted to what the user selected
   filteredData <- reactive({
-    listings[listings$price >= input$range[1] & listings$price <= input$range[2],]
+    
+    listings <- filter(listings, (room_type %in% input$roomType))
+    listings <- listings[listings$price >= input$range[1] & listings$price <= input$range[2], ]
+    return(listings)
   })
   
-  colorpal <- reactive({
-    colorNumeric(input$colors, listings$price)
-  })
+  
   
   output$map <- renderLeaflet({
+    
     leaflet(listings) %>% addTiles() %>%
       fitBounds(~min(longitude), ~min(latitude), ~max(longitude), ~max(latitude))
   })
   
-
+  
   observe({
-    pal <- colorpal()
     
     getColor <- function(listings) {
       sapply(listings$room_type, function(room_type) {
@@ -71,12 +73,14 @@ server <- function(input, output, session) {
       )
   })
   
+  
+  pal <- colorNumeric("RdYlGn", listings$price, reverse = T)
+  
   observe({
     proxy <- leafletProxy("map", data = listings)
     
     proxy %>% clearControls()
     if (input$legend) {
-      pal <- colorpal()
       proxy %>% addLegend(position = "bottomright",
                           pal = pal, values = ~price
       )
