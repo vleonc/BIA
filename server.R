@@ -1,37 +1,18 @@
-list.of.packages <- c("leaflet", "tidyverse", "shiny",'RColorBrewer')
-new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()
-                                   [,"Package"])]
-if(length(new.packages)) install.packages(new.packages)
-
+library(shinythemes)
 library(shiny)
 library(leaflet)
 library(RColorBrewer)
+library(tidyverse)
 
-load("listings.Rdata")
 
-
-ui <- bootstrapPage(
-  tags$style(type = "text/css", "html, body {width:100%;height:100%}"),
-  leafletOutput("map", width = "100%", height = "100%"),
-  absolutePanel(top = 10, right = 10,
-                sliderInput("range", "Magnitudes", 9, max(listings$price),
-                            value = range(listings$price), step = 100
-                ),
-                selectInput("roomType","Select room type",
-                            c("Entire home/apt","Private room","Shared room","Hotel room"), multiple = T,
-                            selected =  c("Entire home/apt","Private room","Shared room","Hotel room")),
-                checkboxInput("legend", "Show legend", TRUE)
-  )
-)
-
-server <- function(input, output, session) {
+shinyServer(function(input, output, session) {
   
   # Reactive expression for the data subsetted to what the user selected
   filteredData <- reactive({
     
-    listings <- filter(listings, (room_type %in% input$roomType))
-    listings <- listings[listings$price >= input$range[1] & listings$price <= input$range[2], ]
-    return(listings)
+    listings2 <- filter(listings, (room_type %in% input$roomType))
+    listings2 <- listings[listings$price >= input$range[1] & listings$price <= input$range[2], ]
+    return(listings2)
   })
   
   
@@ -44,7 +25,7 @@ server <- function(input, output, session) {
   
   
   observe({
-    
+    req(input$tab_being_displayed == "NYC map")
     getColor <- function(listings) {
       sapply(listings$room_type, function(room_type) {
         if(room_type == "Entire home/apt")	 {
@@ -87,6 +68,4 @@ server <- function(input, output, session) {
       )
     }
   })
-}
-
-shinyApp(ui, server)
+})
