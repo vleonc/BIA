@@ -68,12 +68,35 @@ shinyServer(function(input, output, session) {
       )
     }
   })
-  
-  output$mockData <- renderTable({
-    return(mtcars)
-  })
-  
-  
+
+  output$mockData <- renderPlot(
+    ggplot(listings, aes(x = room_type, y = price)) + geom_violin() + scale_y_log10()
+    + ggtitle("Price by room type") + xlab("Room type") + ylab("Price")
+    + theme(
+      plot.title = element_text(color="black", size=24, face="bold.italic"),
+      axis.title.x = element_text(color="black", size=16, face="bold"),
+      axis.title.y = element_text(color="black", size=16, face="bold")
+    ),
+    # get top 50 listings by price
+    top_df <- listings %>% top_n(n = 50, wt = price),
+    
+    # get background map
+    top_height <- max(top_df$latitude) - min(top_df$latitude),
+    top_width <- max(top_df$longitude) - min(top_df$longitude),
+    top_borders <- c(bottom  = min(top_df$latitude)  - 0.1 * top_height,
+                     top     = max(top_df$latitude)  + 0.1 * top_height,
+                     left    = min(top_df$longitude) - 0.1 * top_width,
+                     right   = max(top_df$longitude) + 0.1 * top_width),
+    
+    top_map <- get_stamenmap(top_borders, zoom = 12, maptype = "toner-lite"),
+    
+    # map of top 50 most expensive
+    ggmap(top_map) +
+      geom_point(data = top_df, mapping = aes(x = longitude, y = latitude,
+                                              col = price)) +
+      scale_color_gradient(low = "blue", high = "red")
+  )
+    
   output$mockData2 <- renderTable({
     return(mtcars)
   })
