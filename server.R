@@ -74,8 +74,20 @@ shinyServer(function(input, output, session) {
   })
   
   
-  output$mockData2 <- renderTable({
-    return(mtcars)
+  output$mockData2 <- renderPlot({
+    ggplot(listings, aes(x = fct_infreq(neighbourhood_group), fill = room_type)) +
+      geom_bar() +
+      labs(title = "Number of listings by district",
+           x = "District", y = "Number of listings") +
+      theme(legend.position = "bottom") +
+      labs(fill="Room Type:")
+      
   })
   
+  output$mockData3 <- renderPlot({
+    ggplot(listings, aes(x = room_type, y = price)) +
+      geom_violin() +
+      scale_y_log10()
+    
+  })
 })
