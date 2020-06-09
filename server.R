@@ -11,7 +11,7 @@ shinyServer(function(input, output, session) {
   filteredData <- reactive({
     
     listings2 <- filter(listings, (room_type %in% input$roomType))
-    listings2 <- listings[listings$price >= input$range[1] & listings$price <= input$range[2], ]
+    listings2 <- listings2[listings2$price >= input$range[1] & listings2$price <= input$range[2], ]
     return(listings2)
   })
   
