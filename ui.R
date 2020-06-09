@@ -34,7 +34,7 @@ shinyUI(
                       top = 80, left = "auto", right = 20, bottom = "auto",
                       width = 320, height = "auto",
         h2("Airbnb in NYC"),
-        sliderInput("range", "Price", 9, max(listings$price),
+        sliderInput("range", "Price", min(listings$price), max(listings$price),
                     value = range(listings$price), step = 100
         ),
         selectInput("roomType","Select room type",
