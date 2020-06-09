@@ -32,7 +32,7 @@ shinyUI(
         # Panel options: borough, Room Type, Price, Rating, Reviews
         absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE, draggable = TRUE, 
                       top = 80, left = "auto", right = 20, bottom = "auto",
-                      width = 320, height = "auto",
+                      width = 400, height = "auto",
         h2("Airbnb in NYC"),
         sliderInput("range", "Price", 9, max(listings$price),
                     value = range(listings$price), step = 100
@@ -40,6 +40,7 @@ shinyUI(
         selectInput("roomType","Select room type",
          c("Entire home/apt","Private room","Shared room","Hotel room"), multiple = T,
          selected =  c("Entire home/apt","Private room","Shared room","Hotel room")),
+        plotOutput("mockData", height = 200),
         checkboxInput("legend", "Show legend", TRUE)
         )
         )),
@@ -48,7 +49,7 @@ shinyUI(
            fluidPage(
              verticalLayout(
                column(width = 12, offset = 0, style='padding-left:0px; padding-right:0px; padding-top:5px; padding-bottom:5px',
-                      div(tableOutput("mockData"), align = "left"))
+                      div(tableOutput("mockData3"), align = "left"))
                
              )
            )
