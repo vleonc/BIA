@@ -16,7 +16,6 @@ shinyServer(function(input, output, session) {
   })
   
   
-  
   output$map <- renderLeaflet({
     
     leaflet(listings) %>% addTiles() %>%
@@ -69,4 +68,14 @@ shinyServer(function(input, output, session) {
       )
     }
   })
+  
+  output$mockData <- renderTable({
+    return(mtcars)
+  })
+  
+  
+  output$mockData2 <- renderTable({
+    return(mtcars)
+  })
+  
 })
