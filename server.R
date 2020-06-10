@@ -24,7 +24,7 @@ shinyServer(function(input, output, session) {
   
   
   observe({
-    req(input$tab_being_displayed == "NYC map")
+    req(input$tab_being_displayed == "NYC Map")
     getColor <- function(listings) {
       sapply(listings$room_type, function(room_type) {
         if(room_type == "Entire home/apt")	 {
@@ -58,7 +58,7 @@ shinyServer(function(input, output, session) {
   pal <- colorNumeric("RdYlGn", listings$price, reverse = T)
   
   observe({
-    req(input$tab_being_displayed == "NYC map")
+    req(input$tab_being_displayed == "NYC Map")
     proxy <- leafletProxy("map", data = listings)
     
     proxy %>% clearControls()
