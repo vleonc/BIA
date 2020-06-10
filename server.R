@@ -79,7 +79,8 @@ shinyServer(function(input, output, session) {
       ggtitle("Price by room type") + xlab("Room type") + ylab("Price") +
       theme(plot.title = element_text(color="black", size=24, face="bold.italic"),
             axis.title.x = element_text(color="black", size=16, face="bold"),
-            axis.title.y = element_text(color="black", size=16, face="bold"))
+            axis.title.y = element_text(color="black", size=16, face="bold"),
+            axis.text=element_text(size=14))
   })
   
   output$price2 <- renderPlot({
@@ -95,8 +96,10 @@ shinyServer(function(input, output, session) {
       geom_point(data = top_df, mapping = aes(x = longitude, y = latitude, col = price)) +
       scale_color_gradient(low = "green4", high = "red") +
       ggtitle("Map of the top 100 most expensive listings") +
-      theme(plot.title = element_text(color="black", size=24, face="bold.italic")) +
-      labs(colour="Price")
+      theme(plot.title = element_text(color="black", size=24, face="bold.italic"),
+            axis.text=element_text(size=14),
+            legend.title=element_text(size=14)) +
+      labs(colour="Price", x="Longitude", y="Latitude")
   })
   
   output$price3 <- renderPlot({
@@ -117,9 +120,11 @@ shinyServer(function(input, output, session) {
     ggmap(map) +
       geom_point(data = listingsGroup, mapping = aes(x = long, y = lat, col = median_price, size = num_listings)) +
       scale_color_gradient(low = "green4", high = "red") +
-      ggtitle("Median price by neighborhood") +
-      theme(plot.title = element_text(color="black", size=24, face="bold.italic")) +
-      labs(colour="Median price", size="Agrupation")
+      ggtitle("Median price by neighbourhood") +
+      theme(plot.title = element_text(color="black", size=24, face="bold.italic"),
+            axis.text=element_text(size=14),
+            legend.title=element_text(size=14)) +
+      labs(colour="Median price", size="Agrupation", x="Longitude", y="Latitude")
   })
  
 
@@ -137,29 +142,41 @@ shinyServer(function(input, output, session) {
   
   output$Hood <- renderPlot({
     ggplot(listings, aes(x = fct_infreq(neighbourhood_group), fill = room_type)) + theme_dark() + 
-      theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), ,axis.text.x = element_text(angle = -45)) +
+      theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_text(angle = -45)) +
       geom_bar() +
-      labs(title = "Number of listings by district",
-           x = "District", y = "Number of listings") +
-      theme(legend.position = "bottom") +
-      labs(fill="Room Type:")
+      labs(x = "District", y = "Number of listings") +
+      theme(legend.position = "bottom",
+            axis.title.x = element_text(color="black", size=16, face="bold"),
+            axis.title.y = element_text(color="black", size=16, face="bold"),
+            axis.text=element_text(size=14),
+            legend.title=element_text(size=14)) +
+      labs(fill="Room Type:") +
+      ggtitle("Number of listings by district") +
+      theme(plot.title = element_text(color="black", size=24, face="bold.italic"))
       
 
   })
   
   output$Hood2 <- renderPlot({
+    myTitle <- paste("Top",input$topN,"neighbourhoods by number of listings")
+  
     listings %>%
       group_by(neighbourhood) %>%
       summarize(num_listings = n(), 
                 district = unique(neighbourhood_group)) %>%
-      top_n(n = 20, wt = num_listings) %>%
-      ggplot(aes(x = fct_reorder(neighbourhood, num_listings), 
+      top_n(n = input$topN, wt = num_listings) %>%
+      ggplot(aes(x = reorder(fct_reorder(neighbourhood, num_listings),desc(fct_reorder(neighbourhood, num_listings))), 
                  y = num_listings, fill = district)) + theme_dark()+
       theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),axis.text.x = element_text(angle = -45)) +
       geom_col() +
       theme(legend.position = "bottom") +
-      labs(title = "Top 20 neighborhoods by number of listings",
-           x = "Neighborhood", y = "Number of listings")
+      labs(fill="District:", x = "Neighbourhood", y = "Number of listings") +
+      ggtitle(myTitle) +
+      theme(plot.title = element_text(color="black", size=24, face="bold.italic"),
+            axis.title.x = element_text(color="black", size=16, face="bold"),
+            axis.title.y = element_text(color="black", size=16, face="bold"),
+            axis.text=element_text(size=14),
+            legend.title=element_text(size=14))
     
   })
 })

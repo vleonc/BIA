@@ -14,11 +14,16 @@ shinyUI(
     tabPanel("Overview",
              br(),
              br(),
+             h2("New York City"),
              br(),
-             HTML('<center><img src="airbnb_overview.jpg", height = 600, weight =700 ></center>')
+             br(),
+             HTML('<center><img src="airbnb_overview.jpg", height = 600, weight =700 ></center>'),
+             br(),
+             br(),
+             h3("Xavier Heras, Víctor León, Lorenzo Paso"),
              ),
 
-    tabPanel("NYC map",
+    tabPanel("NYC Map",
         div(class="outer",
             tags$head(#customized CSS
               includeCSS("styles.css")),
@@ -62,7 +67,8 @@ tabPanel("Neighbourhood Analysis",
          fluidPage(
            verticalLayout(
              column(width = 12, offset = 0, style='padding-left:0px; padding-right:0px; padding-top:5px; padding-bottom:5px',
-                    div(plotOutput("Hood"), align = "left"), 
+                    div(plotOutput("Hood"), align = "left"),
+                    numericInput("topN",label= "Select the ranking of top neighbourhoods:", value=20, min=1),
                     div(plotOutput("Hood2"), align = "left"))
              
            )

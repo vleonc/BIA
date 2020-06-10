@@ -15,9 +15,18 @@ div.outer {
 /* Customize fonts */
 body, label, input, button, select { 
   font-family: 'Helvetica Neue', Helvetica;
-  font-weight: 200;
+  font-weight: 90;
+  font-size: 20px;
 }
-h1, h2, h3, h4 { font-weight: 400; }
+h1, h2 { font-weight: 1000; 
+                  text-align: center
+}
+h3, h4 { font-weight: 400; 
+                  text-align: center
+}
+
+.navbar-default .navbar-brand { color: #FFFFFF; 
+                                      font-size: 30px;} 
 
 #controls {
   /* Appearance */
