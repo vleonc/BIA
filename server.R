@@ -11,7 +11,7 @@ shinyServer(function(input, output, session) {
   filteredData <- reactive({
     
     listings2 <- filter(listings, (room_type %in% input$roomType))
-    listings2 <- listings[listings$price >= input$range[1] & listings$price <= input$range[2], ]
+    listings2 <- listings2[listings2$price >= input$range[1] & listings2$price <= input$range[2], ]
     return(listings2)
   })
   
@@ -69,13 +69,25 @@ shinyServer(function(input, output, session) {
     }
   })
   
-  output$mockData <- renderTable({
-    return(mtcars)
+  output$roomTypeBarPlot <- renderPlot({
+    ggplot(filteredData(), aes(x = fct_infreq(room_type), fill = room_type)) +
+      geom_bar(aes(y = (..count..)/sum(..count..)), show.legend = FALSE) +
+      labs(title = "% of listings per room type",
+           x = "Room Type", y = "Percentage") +
+      scale_y_continuous(labels = scales::percent) +
+      theme(panel.background=element_rect(fill="white"),
+            panel.grid=element_blank())
   })
   
-  
-  output$mockData2 <- renderTable({
+  output$mockData3 <- renderTable({
     return(mtcars)
+    
+  })
+  output$mockData2 <- renderTable({
+    
+    return(mtcars)
+    
+    
   })
   
 })
