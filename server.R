@@ -69,10 +69,10 @@ shinyServer(function(input, output, session) {
     }
   })
   
-  output$mockData <- renderPlot({
+  output$roomTypeBarPlot <- renderPlot({
     ggplot(filteredData(), aes(x = fct_infreq(room_type), fill = room_type)) +
       geom_bar(aes(y = (..count..)/sum(..count..)), show.legend = FALSE) +
-      labs(title = "No. of listings by borough",
+      labs(title = "% of listings per room type",
            x = "Room Type", y = "Percentage") +
       scale_y_continuous(labels = scales::percent) +
       theme(panel.background=element_rect(fill="white"),
@@ -84,7 +84,10 @@ shinyServer(function(input, output, session) {
     
   })
   output$mockData2 <- renderTable({
+    
     return(mtcars)
+    
+    
   })
   
 })
