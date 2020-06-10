@@ -44,13 +44,18 @@ shinyUI(
         )),
 
   tabPanel("Price Analysis",
-           fluidPage(
-             verticalLayout(
-               column(width = 12, offset = 0, style='padding-left:0px; padding-right:0px; padding-top:5px; padding-bottom:5px',
-                      div(tableOutput("mockData3"), align = "left"))
-               
-             )
-           )
+
+    fluidPage(
+      verticalLayout(
+        column(width = 12, offset = 0, style='padding-left:0px; padding-right:0px; padding-top:5px; padding-bottom:5px',
+          div(plotOutput("price1"), align = "left"),
+          br(),
+          div(plotOutput("price2"), align = "left"),
+          br(),
+          div(plotOutput("price3"), align = "left"))
+        )
+      )
+
   ),
 
 tabPanel("Neighbourhood Analysis",
