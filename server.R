@@ -68,36 +68,58 @@ shinyServer(function(input, output, session) {
       )
     }
   })
-
-  output$mockData <- renderPlot({
-    ggplot(listings, aes(x = room_type, y = price)) + geom_violin() + scale_y_log10() +
+  
+  output$price1 <- renderPlot({
+    ggplot(listings, aes(x = room_type, y = price)) + geom_boxplot() + 
+      stat_summary(fun=mean, geom="point", shape=8, size=4, color="red", fill="red") + 
+      theme_grey() + 
+      theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+      scale_y_log10() +
       ggtitle("Price by room type") + xlab("Room type") + ylab("Price") +
-      theme(
-        plot.title = element_text(color="black", size=24, face="bold.italic"),
-        axis.title.x = element_text(color="black", size=16, face="bold"),
-        axis.title.y = element_text(color="black", size=16, face="bold")
-      )
+      theme(plot.title = element_text(color="black", size=24, face="bold.italic"),
+            axis.title.x = element_text(color="black", size=16, face="bold"),
+            axis.title.y = element_text(color="black", size=16, face="bold"))
   })
-    output$mockData12 <- renderPlot({
-    # get top 100 listings by price
+  
+  output$price2 <- renderPlot({
     top_df <- listings %>% top_n(n = 100, wt = price)
-    
-    # get background map
     top_height <- max(top_df$latitude) - min(top_df$latitude)
     top_width <- max(top_df$longitude) - min(top_df$longitude)
     top_borders <- c(bottom  = min(top_df$latitude)  - 0.1 * top_height,
                      top     = max(top_df$latitude)  + 0.1 * top_height,
                      left    = min(top_df$longitude) - 0.1 * top_width,
                      right   = max(top_df$longitude) + 0.1 * top_width)
-    
     top_map <- get_stamenmap(top_borders, zoom = 12, maptype = "toner-lite")
-    
-    # map of top 50 most expensive
     ggmap(top_map) +
-      geom_point(data = top_df, mapping = aes(x = longitude, y = latitude,
-                                              col = price)) +
-      scale_color_gradient(low = "blue", high = "red")
-    })
+      geom_point(data = top_df, mapping = aes(x = longitude, y = latitude, col = price)) +
+      scale_color_gradient(low = "green4", high = "red") +
+      ggtitle("Map of the top 100 most expensive listings") +
+      theme(plot.title = element_text(color="black", size=24, face="bold.italic")) +
+      labs(colour="Price")
+  })
+  
+  output$price3 <- renderPlot({
+    listingsGroup <- listings %>%
+      group_by(neighbourhood) %>%
+      summarize(num_listings = n(),
+                median_price = median(price),
+                long = median(longitude),
+                lat = median(latitude),
+                borough = unique(neighbourhood_group))
+    height <- max(listings$latitude) - min(listings$latitude)
+    width <- max(listings$longitude) - min(listings$longitude)
+    borders <- c(bottom  = min(listings$latitude)  - 0.1 * height,
+                 top     = max(listings$latitude)  + 0.1 * height,
+                 left    = min(listings$longitude) - 0.1 * width,
+                 right   = max(listings$longitude) + 0.1 * width)
+    map <- get_stamenmap(borders, zoom = 11, maptype = "toner-lite")
+    ggmap(map) +
+      geom_point(data = listingsGroup, mapping = aes(x = long, y = lat, col = median_price, size = num_listings)) +
+      scale_color_gradient(low = "green4", high = "red") +
+      ggtitle("Median price by neighborhood") +
+      theme(plot.title = element_text(color="black", size=24, face="bold.italic")) +
+      labs(colour="Median price", size="Agrupation")
+  })
     
   output$mockData2 <- renderTable({
     return(mtcars)
