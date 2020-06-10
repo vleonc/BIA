@@ -75,7 +75,8 @@ shinyServer(function(input, output, session) {
   
   
   output$mockData2 <- renderPlot({
-    ggplot(listings, aes(x = fct_infreq(neighbourhood_group), fill = room_type)) +
+    ggplot(listings, aes(x = fct_infreq(neighbourhood_group), fill = room_type)) + theme_dark() + 
+      theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), ,axis.text.x = element_text(angle = -45)) +
       geom_bar() +
       labs(title = "Number of listings by district",
            x = "District", y = "Number of listings") +
@@ -85,9 +86,19 @@ shinyServer(function(input, output, session) {
   })
   
   output$mockData3 <- renderPlot({
-    ggplot(listings, aes(x = room_type, y = price)) +
-      geom_violin() +
-      scale_y_log10()
+    listings %>%
+      group_by(neighbourhood) %>%
+      summarize(num_listings = n(), 
+                district = unique(neighbourhood_group)) %>%
+      top_n(n = 20, wt = num_listings) %>%
+      ggplot(aes(x = fct_reorder(neighbourhood, num_listings), 
+                 y = num_listings, fill = district)) + theme_dark()+
+      theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),axis.text.x = element_text(angle = -45)) +
+      geom_col() +
+      theme(legend.position = "bottom") +
+      labs(title = "Top 20 neighborhoods by number of listings",
+           x = "Neighborhood", y = "Number of listings")
     
   })
 })
+
