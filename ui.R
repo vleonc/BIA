@@ -31,7 +31,9 @@ shinyUI(
                       width = 400, height = "auto",
         h2("Airbnb in NYC"),
         sliderInput("range", "Price", min(listings$price), max(listings$price),
+
                     value = range(listings$price), step = 1
+
         ),
         checkboxGroupInput("roomType","Select room type",
          c("Entire home/apt","Private room","Shared room","Hotel room"),
