@@ -58,8 +58,8 @@ tabPanel("Neighbourhood Analysis",
          fluidPage(
            verticalLayout(
              column(width = 12, offset = 0, style='padding-left:0px; padding-right:0px; padding-top:5px; padding-bottom:5px',
-                    div(plotOutput("mockData2"), align = "left"), 
-                    div(plotOutput("mockData3"), align = "left"))
+                    div(plotOutput("Hood"), align = "left"), 
+                    div(plotOutput("Hood2"), align = "left"))
              
            )
          )

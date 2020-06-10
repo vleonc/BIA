@@ -74,7 +74,7 @@ shinyServer(function(input, output, session) {
   })
   
   
-  output$mockData2 <- renderPlot({
+  output$Hood <- renderPlot({
     ggplot(listings, aes(x = fct_infreq(neighbourhood_group), fill = room_type)) + theme_dark() + 
       theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), ,axis.text.x = element_text(angle = -45)) +
       geom_bar() +
@@ -85,7 +85,7 @@ shinyServer(function(input, output, session) {
       
   })
   
-  output$mockData3 <- renderPlot({
+  output$Hood2 <- renderPlot({
     listings %>%
       group_by(neighbourhood) %>%
       summarize(num_listings = n(), 
