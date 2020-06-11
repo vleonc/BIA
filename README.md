@@ -1,6 +1,6 @@
 # BIA
 ## práctica II BIA
-
+## El proyecto se encuentra disponible en https://github.com/vleonc/BIA
 1. Hacer git clone o download del proyecto
 2. Abrir cualquiera de estos archivos: ui, server.
 3. Click Run app. Para una mejor estabilidad del slider, se recomienda abrir shiny en el navegador.
