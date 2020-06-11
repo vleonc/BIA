@@ -20,6 +20,7 @@ shinyUI(
              HTML('<center><img src="airbnb_overview.jpg", height = 600, weight =700 ></center>'),
              br(),
              br(),
+             h2("G12"),
              h3("Xavier Heras, Víctor León, Lorenzo Paso"),
              ),
 
