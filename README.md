@@ -1,6 +1,11 @@
 # BIA
 ## práctica II BIA
 
-1. El mapaEstatico hace un plot de todas las viviendas en un mapa de NYC según el tipo de vivienda
-2. El mapaDinamico ofrece un mapa dinámico donde agrupa bajo distintos niveles de zoom y es capaz de representar un gran volumen de datos.
-3. Shiny definido con barra interactiva con rango de precios, cluster, reescalado con zoom.
+1. Hacer git clone o download del proyecto
+2. Abrir cualquiera de estos archivos: ui, server.
+3. Click Run app. Para una mejor estabilidad del slider, se recomienda abrir shiny en el navegador.
+
+PD: El archivo de datos está ya integrado en el propio shiny, por lo que no hay que cargar ningún archivo.
+
+
+Autores: Xavier Heras, Víctor León, Lorenzo Paso
