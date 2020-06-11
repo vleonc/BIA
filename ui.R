@@ -1,8 +1,15 @@
+list.of.packages <- c("leaflet", "tidyverse","shinythemes","shiny",
+                      "RColorBrewer", "ggmap")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()
+                                   [,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
 library(shinythemes)
 library(shiny)
 library(leaflet)
 library(RColorBrewer)
 library(tidyverse)
+library(ggmap)
 
 shinyUI(
   navbarPage(title = "Airbnb Visualisation", 
@@ -69,7 +76,7 @@ tabPanel("Neighbourhood Analysis",
            verticalLayout(
              column(width = 12, offset = 0, style='padding-left:0px; padding-right:0px; padding-top:5px; padding-bottom:5px',
                     div(plotOutput("Hood"), align = "left"),
-                    numericInput("topN",label= "Select the ranking of top neighbourhoods:", value=20, min=1),
+                    numericInput("topN",label= "Select the ranking of top neighbourhoods (Max = 50):", value=20, min=1, max=50),
                     div(plotOutput("Hood2"), align = "left"))
              
            )

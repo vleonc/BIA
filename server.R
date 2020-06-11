@@ -1,9 +1,3 @@
-library(shinythemes)
-library(shiny)
-library(leaflet)
-library(RColorBrewer)
-library(tidyverse)
-library(ggmap)
 
 shinyServer(function(input, output, session) {
   
@@ -158,7 +152,9 @@ shinyServer(function(input, output, session) {
   })
   
   output$Hood2 <- renderPlot({
+    validate(need(input$topN <= 50, "Exceeded max value"))
     myTitle <- paste("Top",input$topN,"neighbourhoods by number of listings")
+    
   
     listings %>%
       group_by(neighbourhood) %>%
